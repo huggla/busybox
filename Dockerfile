@@ -10,7 +10,7 @@ RUN mkdir -p /rootfs/bin /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin \
  && cp -a $(find /usr/sbin/* -type l | xargs) /rootfs/usr/sbin/ \
  && ./rootfs/bin/busybox rm -rf /home /usr /var /root /tmp /media /mnt /run /sbin /srv /etc /bin/* || ./rootfs/bin/busybox true \
  && ./rootfs/bin/busybox cp -a /rootfs/bin/* /bin/ \
- && find /rootfs -type l -exec sh -c 'for x; do [ -e "$x" ] || rm "$x"; done' _ {} +
+ && ./rootfs/bin/busybox find /rootfs -type l -exec ./rootfs/bin/busybox sh -c 'for x; do [ -e "$x" ] || ./rootfs/bin/busybox rm "$x"; done' _ {} +
  
  FROM scratch
  
