@@ -1,10 +1,11 @@
 FROM alpine:edge as stage1
 
-RUN mkdir -p /rootfs/bin /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d \
- && find /lib/* ! -name *musl* | xargs rm -rf \
+RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d \
  && apk --no-cache add sudo zlib \
+ && cp -a /lib/libz.so* /rootfs/lib/ \
+ && find /lib/* ! -name *musl* | xargs rm -rf \
  && cp -a /bin/busybox /bin/sh /rootfs/bin/ \
- && cp -a /lib /rootfs/ \
+ && cp -a /lib/* /rootfs/lib/ \
  && cp -a $(find /bin/* -type l | xargs) /rootfs/bin/ \
  && cp -a $(find /sbin/* -type l | xargs) /rootfs/sbin/ \
  && cp -a $(find /usr/bin/* -type l | xargs) /rootfs/usr/bin/ \
