@@ -1,4 +1,4 @@
-FROM huggla/alpine-official:edge as stage1
+FROM huggla/alpine-official:20180907-edge as stage1
 
 RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d \
  && apk --no-cache add sudo zlib \
