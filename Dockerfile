@@ -18,6 +18,8 @@ RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sb
  && echo 'root ALL=(ALL) ALL' > /rootfs/etc/sudoers \
  && echo '#includedir /etc/sudoers.d' >> /rootfs/etc/sudoers \
  && chmod o= /rootfs/etc/* \
+ && cd /rootfs/usr/bin \
+ && ln -s ../local/bin/sudo sudo \
  && ./rootfs/bin/busybox rm -rf /home /usr /var /root /tmp /media /mnt /run /sbin /srv /etc /bin/* || ./rootfs/bin/busybox true \
  && ./rootfs/bin/busybox cp -a /rootfs/bin/* /bin/ \
  && ./rootfs/bin/busybox find /rootfs -type l -exec ./rootfs/bin/busybox sh -c 'for x; do [ -e "$x" ] || ./rootfs/bin/busybox rm "$x"; done' _ {} +
