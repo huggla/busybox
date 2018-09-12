@@ -18,7 +18,7 @@ RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sb
  && echo 'root ALL=(ALL) ALL' > /rootfs/etc/sudoers \
  && echo '#includedir /etc/sudoers.d' >> /rootfs/etc/sudoers \
  && chmod o= /rootfs/etc/* \
- && chmod ugo=rwx /tmp \
+ && chmod ugo=rwx /rootfs/tmp \
  && cd /rootfs/usr/bin \
  && ln -s ../local/bin/sudo sudo \
  && /rootfs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /rootfs/bin/busybox true \
