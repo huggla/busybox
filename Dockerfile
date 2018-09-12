@@ -1,4 +1,4 @@
-FROM huggla/alpine-official:20180907-edge as stage1
+FROM huggla/alpine-official:edge as stage1
 
 RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp \
  && apk --no-cache add sudo zlib \
@@ -18,15 +18,15 @@ RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sb
  && echo 'root ALL=(ALL) ALL' > /rootfs/etc/sudoers \
  && echo '#includedir /etc/sudoers.d' >> /rootfs/etc/sudoers \
  && chmod o= /rootfs/etc/* \
- && chmod ugo=rwx /tmp \
+ && chmod ugo=rwx /rootfs/tmp \
  && cd /rootfs/usr/bin \
  && ln -s ../local/bin/sudo sudo \
  && /rootfs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /rootfs/bin/busybox true \
  && /rootfs/bin/busybox cp -a /rootfs/bin/* /bin/ \
  && /rootfs/bin/busybox find /rootfs -type l -exec /rootfs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /rootfs/bin/busybox rm "$x"; done' _ {} +
  
- FROM scratch
+FROM scratch
  
- COPY --from=stage1 /rootfs /
+COPY --from=stage1 /rootfs /
  
- RUN chmod u+s /usr/local/bin/sudo
+RUN chmod u+s /usr/local/bin/sudo
