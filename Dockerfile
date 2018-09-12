@@ -1,6 +1,6 @@
 FROM huggla/alpine-official:edge as stage1
 
-RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp \
+RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp /rootfs/var/cache \
  && apk --no-cache add sudo zlib \
  && cp -a /lib/libz.so* /rootfs/lib/ \
  && find /lib/* ! -name *musl* | xargs rm -rf \
