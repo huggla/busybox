@@ -23,8 +23,8 @@ RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sb
  && /rootfs/bin/busybox cp -a /rootfs/bin/* /bin/ \
  && /rootfs/bin/busybox find /rootfs -type l -exec /rootfs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /rootfs/bin/busybox rm "$x"; done' _ {} +
  
- FROM scratch
+FROM scratch
  
- COPY --from=stage1 /rootfs /
+COPY --from=stage1 /rootfs /
  
- RUN chmod u+s /usr/local/bin/sudo
+RUN chmod u+s /usr/local/bin/sudo
