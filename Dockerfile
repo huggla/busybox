@@ -2,10 +2,10 @@ FROM huggla/alpine-official:edge as stage1
 
 RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp /rootfs/var/cache \
  && apk --no-cache add sudo zlib \
- && cp -a /lib/libz.so* /rootfs/lib/ \
- && find /lib/* ! -name *musl* | xargs rm -rf \
+ && rm -rf /lib/apk/db \
+ && apk add --initdb \
+ && cp -a /lib/libz.so* /lib/*musl* /lib/apk /rootfs/lib/ \
  && cp -a /bin/busybox /bin/sh /rootfs/bin/ \
- && cp -a /lib/* /rootfs/lib/ \
  && cp -a $(find /bin/* -type l | xargs) /rootfs/bin/ \
  && cp -a $(find /sbin/* -type l | xargs) /rootfs/sbin/ \
  && cp -a $(find /usr/bin/* -type l | xargs) /rootfs/usr/bin/ \
