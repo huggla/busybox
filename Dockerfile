@@ -1,7 +1,9 @@
-FROM huggla/alpine-official:edge as stage1
+FROM huggla/alpine-official:20180907-edge as stage1
+
+ARG APKS="sudo"
 
 RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp /rootfs/var/cache \
- && apk --no-cache add sudo zlib \
+ && apk --no-cache add $APKS \
  && cp -a /lib/libz.so* /lib/*musl* /rootfs/lib/ \
  && cp -a /bin/busybox /bin/sh /rootfs/bin/ \
  && cp -a $(find /bin/* -type l | xargs) /rootfs/bin/ \
@@ -19,6 +21,8 @@ RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sb
  && chmod ugo=rwx /rootfs/tmp \
  && cd /rootfs/usr/bin \
  && ln -s ../local/bin/sudo sudo \
+ && cd /rootfs/var \
+ && ln -s ../tmp tmp \
  && /rootfs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /rootfs/bin/busybox true \
  && /rootfs/bin/busybox cp -a /rootfs/bin/* /bin/ \
  && /rootfs/bin/busybox find /rootfs -type l -exec /rootfs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /rootfs/bin/busybox rm "$x"; done' _ {} +
