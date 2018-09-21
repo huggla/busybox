@@ -1,26 +1,17 @@
 FROM huggla/alpine-official:20180921-edge as stage1
 
-ARG APKS="sudo"
-
-RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp /rootfs/var/cache /rootfs/run \
- && apk --no-cache add $APKS \
+RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/tmp /rootfs/var/cache /rootfs/run \
  && cp -a /lib/libz.so* /lib/*musl* /rootfs/lib/ \
  && cp -a /bin/busybox /bin/sh /rootfs/bin/ \
  && cp -a $(find /bin/* -type l | xargs) /rootfs/bin/ \
  && cp -a $(find /sbin/* -type l | xargs) /rootfs/sbin/ \
  && cp -a $(find /usr/bin/* -type l | xargs) /rootfs/usr/bin/ \
  && cp -a $(find /usr/sbin/* -type l | xargs) /rootfs/usr/sbin/ \
- && cp -a /usr/bin/sudo /rootfs/usr/local/bin/ \
- && cp -a /usr/lib/sudo/libsudo* /usr/lib/sudo/sudoers* /rootfs/usr/lib/sudo/ \
  && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /rootfs/etc/passwd \
  && echo 'root:x:0:root' > /rootfs/etc/group \
  && echo 'root:::0:::::' > /rootfs/etc/shadow \
- && echo 'root ALL=(ALL) ALL' > /rootfs/etc/sudoers \
- && echo '#includedir /etc/sudoers.d' >> /rootfs/etc/sudoers \
  && chmod o= /rootfs/etc/* \
  && chmod ugo=rwx /rootfs/tmp \
- && cd /rootfs/usr/bin \
- && ln -s ../local/bin/sudo sudo \
  && cd /rootfs/var \
  && ln -s ../tmp tmp \
  && /rootfs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /rootfs/bin/busybox true \
@@ -30,5 +21,3 @@ RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sb
 FROM scratch
  
 COPY --from=stage1 /rootfs /
- 
-RUN chmod u+s /usr/local/bin/sudo
