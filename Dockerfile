@@ -1,6 +1,6 @@
 FROM huggla/alpine-official:20180921-edge as stage1
 
-RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/tmp /rootfs/var/cache /rootfs/run \
+RUN mkdir -p /rootfs/bin /rootfs/etc /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/tmp /rootfs/var/cache /rootfs/run \
  && cp -a /lib/libz.so* /lib/*musl* /rootfs/lib/ \
  && cp -a /bin/busybox /bin/sh /rootfs/bin/ \
  && cp -a $(find /bin/* -type l | xargs) /rootfs/bin/ \
