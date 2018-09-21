@@ -1,4 +1,4 @@
-FROM huggla/alpine-official as stage1
+FROM huggla/alpine-official:20180921-edge as stage1
 
 ARG APKS="sudo"
 
