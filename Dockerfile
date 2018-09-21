@@ -2,7 +2,7 @@ FROM huggla/alpine-official:20180921-edge as stage1
 
 ARG APKS="sudo"
 
-RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp /rootfs/var/cache \
+RUN mkdir -p /rootfs/bin /rootfs/lib /rootfs/sbin /rootfs/usr/bin /rootfs/usr/sbin /rootfs/usr/local/bin /rootfs/usr/lib/sudo /rootfs/etc/sudoers.d /rootfs/tmp /rootfs/var/cache /rootfs/run \
  && apk --no-cache add $APKS \
  && cp -a /lib/libz.so* /lib/*musl* /rootfs/lib/ \
  && cp -a /bin/busybox /bin/sh /rootfs/bin/ \
