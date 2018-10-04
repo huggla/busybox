@@ -10,6 +10,9 @@ RUN mkdir -p /imagefs/bin /imagefs/etc /imagefs/lib /imagefs/sbin /imagefs/usr/b
  && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /imagefs/etc/passwd \
  && echo 'root:x:0:root' > /imagefs/etc/group \
  && echo 'root:::0:::::' > /imagefs/etc/shadow \
+ && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /imagefs/etc/passwd \
+ && echo 'starter:x:0:starter' >> /imagefs/etc/group \
+ && echo 'starter:::0:::::' >> /imagefs/etc/shadow \
  && chmod o= /imagefs/etc/* \
  && chmod ugo=rwx /imagefs/tmp \
  && cd /imagefs/var \
