@@ -1,4 +1,4 @@
-FROM huggla/alpine-official:20181005-edge as alpine
+FROM huggla/alpine-official:20181017-edge as alpine
 
 RUN mkdir -p /imagefs/bin /imagefs/etc /imagefs/lib /imagefs/sbin /imagefs/usr/bin /imagefs/usr/sbin /imagefs/usr/local/bin /imagefs/tmp /imagefs/var/cache /imagefs/run \
  && cp -a /lib/libz.so* /lib/*musl* /imagefs/lib/ \
