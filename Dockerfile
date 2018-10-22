@@ -21,7 +21,7 @@ RUN mkdir -p /imagefs/bin /imagefs/etc /imagefs/lib /imagefs/sbin /imagefs/usr/b
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
- && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox bzip2 -9 > /imagefs/onbuild-exclude.filelist.bz2
+ && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz
 
 FROM scratch as image
 
