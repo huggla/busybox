@@ -34,4 +34,5 @@ FROM scratch as image
 COPY --from=alpine /imagefs /
 COPY --from=alpine /imagefs.tar /imagefs.tar
 
-RUN tar -xvp -f /imagefs.tar -C /
+RUN tar -xvp -f /imagefs.tar -C / \
+ && rm /imagefs.tar
