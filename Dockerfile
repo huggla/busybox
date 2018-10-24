@@ -18,7 +18,7 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
  && cp -a $(find /usr/sbin/* -type l | xargs) /imagefs/usr/sbin/ \
  && cd /imagefs/var \
  && ln -sf ../tmp tmp \
- && /imagefs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /imagefs/bin/busybox true \
+ && /imagefs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /bin/* || /imagefs/bin/busybox true \
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
@@ -27,7 +27,7 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
  && /imagefs/bin/busybox chgrp -R 102 /imagefs/* \
  && /imagefs/bin/busybox chgrp 112 /imagefs /imagefs/tmp /imagefs/etc /imagefs/usr /imagefs/usr/lib /imagefs/usr/local \
  && /imagefs/bin/busybox chgrp -R 112 /imagefs/lib \
- && /imagefs/bin/busybox chgrp 0 /imagefs/bin /imagefs/sbin /imagefs/usr/bin /imagefs/usr/sbin /etc/passwd /etc/group /etc/shadow \
+ && /imagefs/bin/busybox chgrp 0 /imagefs/bin /imagefs/sbin /imagefs/usr/bin /imagefs/usr/sbin /imagefs/etc/passwd /imagefs/etc/group /imagefs/etc/shadow \
  && /imagefs/bin/busybox chgrp 101 /imagefs/usr/local/bin
 
 FROM scratch as image
