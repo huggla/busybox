@@ -6,8 +6,9 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
  && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /etc/passwd \
  && echo 'starter:x:101:' >> /etc/group \
  && echo -n 'users:x:112:root,starter' >> /etc/group \
- && chmod g= /etc/passwd /etc/group \
- && cp -a /etc/passwd /etc/group /imagefs/etc/ \
+ && touch /etc/shadow \
+ && chmod g= /etc/passwd /etc/group /etc/shadow \
+ && cp -a /etc/passwd /etc/group /etc/shadow /imagefs/etc/ \
  && cp -a /lib/libz.so* /lib/*musl* /imagefs/lib/ \
  && cp -a /bin/busybox /bin/sh /imagefs/bin/ \
  && cp -a $(find /bin/* -type l | xargs) /imagefs/bin/ \
