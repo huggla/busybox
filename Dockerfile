@@ -25,10 +25,9 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
 
 FROM scratch as image
 
-COPY --from=alpine /imagefs /
+COPY --chown=0:102 --from=alpine /imagefs /
 
-RUN chgrp -R 102 /* \
- && chgrp 112 / /tmp /etc /usr /usr/lib /usr/local \
+RUN chgrp 112 / /tmp /etc /usr /usr/lib /usr/local \
  && chgrp -R 112 /lib \
  && chgrp 0 /bin /sbin /usr/bin /usr/sbin /etc/passwd /etc/group \
  && chgrp 101 /usr/local/bin
