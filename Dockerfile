@@ -20,14 +20,14 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
- && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz \
- && /imagefs/bin/busybox chmod -R o= /imagefs
+ && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz
 
 FROM scratch as image
 
 COPY --chown=0:102 --from=alpine /imagefs /
 
-RUN chgrp 112 / /tmp /etc /usr /usr/lib /usr/local \
+RUN chmod -R o= / || true \
+ && chgrp 112 / /tmp /etc /usr /usr/lib /usr/local \
  && chgrp -R 112 /lib \
  && chgrp 0 /bin /sbin /usr/bin /usr/sbin /etc/passwd /etc/group \
  && chgrp 101 /usr/local/bin
