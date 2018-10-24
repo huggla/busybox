@@ -3,10 +3,11 @@ FROM huggla/alpine-official:20181017-edge as alpine
 RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin /imagefs/usr/bin /imagefs/usr/lib /imagefs/usr/sbin /imagefs/usr/local/bin /imagefs/tmp /imagefs/var/cache /imagefs/run \
  && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /etc/passwd \
  && echo 'root:x:0:' > /etc/group \
+ && echo 'root:::0:::::' > /etc/shadow \
  && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /etc/passwd \
  && echo 'starter:x:101:' >> /etc/group \
+ && echo 'starter:::0:::::' > /etc/shadow \
  && echo -n 'users:x:112:root,starter' >> /etc/group \
- && touch /etc/shadow \
  && chmod g= /etc/passwd /etc/group /etc/shadow \
  && cp -a /etc/passwd /etc/group /etc/shadow /imagefs/etc/ \
  && cp -a /lib/libz.so* /lib/*musl* /imagefs/lib/ \
