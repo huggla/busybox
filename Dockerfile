@@ -26,8 +26,12 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
  && /imagefs/bin/busybox chgrp 112 /imagefs /imagefs/tmp /imagefs/etc /imagefs/usr /imagefs/usr/lib /imagefs/usr/local \
  && /imagefs/bin/busybox chgrp -R 112 /imagefs/lib \
  && /imagefs/bin/busybox chgrp 0 /imagefs/bin /imagefs/sbin /imagefs/usr/bin /imagefs/usr/sbin \
- && /imagefs/bin/busybox chgrp 101 /imagefs/usr/local/bin
+ && /imagefs/bin/busybox chgrp 101 /imagefs/usr/local/bin \
+ && /imagefs/bin/busybox tar -cvp /imagefs/* > imagefs.tar
 
 FROM scratch as image
 
 COPY --from=alpine /imagefs /
+COPY --from=alpine /imagefs.tar /
+
+RUN tar -xvp -f /imagefs.tar
