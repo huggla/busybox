@@ -34,3 +34,4 @@ FROM scratch as image
 
 COPY --from=alpine /imagefs /
 COPY --from=alpine /imagefs/usr /usr
+COPY --from=alpine /imagefs/etc/* /etc/
