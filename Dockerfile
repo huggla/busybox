@@ -10,18 +10,19 @@ RUN mkdir -p /imagefs/bin /imagefs/etc /imagefs/lib /imagefs/sbin /imagefs/usr/b
  && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /imagefs/etc/passwd \
  && echo 'root:x:0:' > /imagefs/etc/group \
 # && echo 'root:::0:::::' > /imagefs/etc/shadow \
- && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /imagefs/etc/passwd \
- && echo 'starter:x:101:' >> /imagefs/etc/group \
+# && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /imagefs/etc/passwd \
+# && echo 'starter:x:101:' >> /imagefs/etc/group \
 # && echo 'starter:::0:::::' >> /imagefs/etc/shadow \
- && chmod o= /imagefs/etc/* \
- && chmod ugo=rwx /imagefs/tmp \
+# && chmod o= /imagefs/etc/* \
+# && chmod ugo=rwx /imagefs/tmp \
  && cd /imagefs/var \
  && ln -sf ../tmp tmp \
  && /imagefs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /imagefs/bin/busybox true \
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
- && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz
+ && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz \
+ && /imagefs/bin/busybox chmod -R o= /
 
 FROM scratch as image
 
