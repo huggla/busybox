@@ -8,11 +8,11 @@ RUN mkdir -p /imagefs/bin /imagefs/etc /imagefs/lib /imagefs/sbin /imagefs/usr/b
  && cp -a $(find /usr/bin/* -type l | xargs) /imagefs/usr/bin/ \
  && cp -a $(find /usr/sbin/* -type l | xargs) /imagefs/usr/sbin/ \
  && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /imagefs/etc/passwd \
- && echo 'root:x:0:root' > /imagefs/etc/group \
- && echo 'root:::0:::::' > /imagefs/etc/shadow \
+ && echo 'root:x:0:' > /imagefs/etc/group \
+# && echo 'root:::0:::::' > /imagefs/etc/shadow \
  && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /imagefs/etc/passwd \
- && echo 'starter:x:0:starter' >> /imagefs/etc/group \
- && echo 'starter:::0:::::' >> /imagefs/etc/shadow \
+ && echo 'starter:x:101:' >> /imagefs/etc/group \
+# && echo 'starter:::0:::::' >> /imagefs/etc/shadow \
  && chmod o= /imagefs/etc/* \
  && chmod ugo=rwx /imagefs/tmp \
  && cd /imagefs/var \
