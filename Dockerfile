@@ -19,9 +19,10 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
  && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz \
  && /imagefs/bin/busybox chmod -R o= /imagefs \
  && /imagefs/bin/busybox chgrp -R 102 /imagefs/* \
- && /imagefs/bin/busybox chgrp 112 /imagefs /imagefs/tmp /imagefs/etc /imagefs/usr /imagefs/usr/lib /imagefs/usr/local /imagefs/usr/local/bin \
+ && /imagefs/bin/busybox chgrp 112 /imagefs /imagefs/tmp /imagefs/etc /imagefs/usr /imagefs/usr/lib /imagefs/usr/local \
  && /imagefs/bin/busybox chgrp -R 112 /imagefs/lib \
- && /imagefs/bin/busybox chgrp 0 /imagefs/bin /imagefs/sbin /imagefs/usr/bin /imagefs/usr/sbin
+ && /imagefs/bin/busybox chgrp 0 /imagefs/bin /imagefs/sbin /imagefs/usr/bin /imagefs/usr/sbin \
+ && /imagefs/bin/busybox chgrp 101 /imagefs/usr/local/bin
 
 FROM scratch as image
 
