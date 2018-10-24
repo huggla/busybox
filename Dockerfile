@@ -33,3 +33,4 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
 FROM scratch as image
 
 COPY --from=alpine /imagefs /
+COPY --from=alpine /imagefs/usr /usr
