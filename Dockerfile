@@ -1,19 +1,21 @@
 FROM huggla/alpine-official:20181017-edge as alpine
 
-RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin /imagefs/usr/bin /imagefs/usr/lib /imagefs/usr/sbin /imagefs/usr/local/bin /imagefs/tmp /imagefs/var/cache /imagefs/run \
- && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /etc/passwd \
- && echo 'root:x:0:' > /etc/group \
- && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /etc/passwd \
- && echo 'starter:x:101:' >> /etc/group \
- && echo -n 'users:x:112:root,starter' >> /etc/group \
- && chmod g= /etc/passwd /etc/group \
- && cp -a /etc/passwd /etc/group /imagefs/etc/ \
+RUN mkdir -m 755 /imagefs \
+ && mkdir -m 700 /imagefs/bin /imagefs/sbin /imagefs/.r /imagefs/.docker /imagefs/sys /imagefs/dev /imagefs/proc \
+ && mkdir -m 750 /imagefs/etc /imagefs/lib /imagefs/usr /imagefs/var /imagefs/run \
+ && mkdir -m 770 /imagefs/tmp \
+ && mkdir -m 700 /imagefs/usr/bin /imagefs/usr/sbin \
+ && mkdir -m 750 /imagefs/usr/lib /imagefs/usr/local /imagefs/var/cache \
+ && mkdir -m 750 /imagefs/usr/local/bin \
  && cp -a /lib/libz.so* /lib/*musl* /imagefs/lib/ \
  && cp -a /bin/busybox /bin/sh /imagefs/bin/ \
  && cp -a $(find /bin/* -type l | xargs) /imagefs/bin/ \
  && cp -a $(find /sbin/* -type l | xargs) /imagefs/sbin/ \
  && cp -a $(find /usr/bin/* -type l | xargs) /imagefs/usr/bin/ \
  && cp -a $(find /usr/sbin/* -type l | xargs) /imagefs/usr/sbin/ \
+ && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /imagefs/etc/passwd \
+ && echo 'root:x:0:' > /imagefs/etc/group \
+ && chmod 700 /imagefs/etc/passwd /imagefs/etc/group \
  && cd /imagefs/var \
  && ln -sf ../tmp tmp \
  && /imagefs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /imagefs/bin/busybox true \
@@ -24,10 +26,4 @@ RUN mkdir -p /imagefs/bin /imagefs/sbin /imagefs/etc /imagefs/lib /imagefs/sbin 
 
 FROM scratch as image
 
-COPY --chown=0:102 --from=alpine /imagefs /
-
-RUN chmod -R o= / || true \
- && chgrp 112 / /tmp /etc /usr /usr/lib /usr/local \
- && chgrp -R 112 /lib \
- && chgrp 0 /bin /sbin /usr/bin /usr/sbin /etc/passwd /etc/group \
- && chgrp 101 /usr/local/bin
+COPY --from=alpine /imagefs /
