@@ -16,7 +16,7 @@ RUN mkdir -m 755 /imagefs \
  && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /imagefs/etc/passwd \
  && echo 'root:x:0:' > /imagefs/etc/group \
  && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /imagefs/etc/passwd \
- && echo 'starter:x:0:' >> /imagefs/etc/group \
+ && echo 'starter:x:101:' >> /imagefs/etc/group \
  && chmod 600 /imagefs/etc/passwd /imagefs/etc/group \
  && cd /imagefs/var \
  && ln -sf ../tmp tmp \
