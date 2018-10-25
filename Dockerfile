@@ -15,7 +15,7 @@ RUN mkdir -m 755 /imagefs \
  && cp -a $(find /usr/sbin/* -type l | xargs) /imagefs/usr/sbin/ \
  && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /imagefs/etc/passwd \
  && echo 'root:x:0:' > /imagefs/etc/group \
- && chmod 700 /imagefs/etc/passwd /imagefs/etc/group \
+ && chmod 600 /imagefs/etc/passwd /imagefs/etc/group \
  && cd /imagefs/var \
  && ln -sf ../tmp tmp \
  && /imagefs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /imagefs/bin/busybox true \
@@ -23,7 +23,7 @@ RUN mkdir -m 755 /imagefs \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
  && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz \
- && chmod 700 /imagefs/onbuild-exclude.filelist.gz
+ && chmod 600 /imagefs/onbuild-exclude.filelist.gz
 
 FROM scratch as image
 
