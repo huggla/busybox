@@ -13,7 +13,7 @@ RUN mkdir -m 755 /imagefs \
  && cp -a $(find /sbin/* -type l | xargs) /imagefs/sbin/ \
  && cp -a $(find /usr/bin/* -type l | xargs) /imagefs/usr/bin/ \
  && cp -a $(find /usr/sbin/* -type l | xargs) /imagefs/usr/sbin/ \
- && echo 'root:x:0:0:root:/:/sbin/nologin' > /imagefs/etc/passwd \
+ && echo 'root:x:0:0:root:/dev/null:/sbin/nologin' > /imagefs/etc/passwd \
  && echo 'root:x:0:' > /imagefs/etc/group \
  && echo 'starter:x:101:101:starter:/:/sbin/nologin' >> /imagefs/etc/passwd \
  && echo 'starter:x:101:' >> /imagefs/etc/group \
