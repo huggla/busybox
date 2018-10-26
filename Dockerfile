@@ -1,8 +1,8 @@
 FROM huggla/alpine-official:20181017-edge as alpine
 
 RUN mkdir -m 755 /imagefs \
- && mkdir -m 700 /imagefs/bin /imagefs/sbin /imagefs/.dockerenv /imagefs/dev \
- && mkdir -m 750 /imagefs/etc /imagefs/lib /imagefs/usr /imagefs/var /imagefs/run /imagefs/.r \
+ && mkdir -m 700 /imagefs/bin /imagefs/sbin /imagefs/.dockerenv /imagefs/.r /imagefs/dev \
+ && mkdir -m 750 /imagefs/etc /imagefs/lib /imagefs/usr /imagefs/var /imagefs/run \
  && mkdir -m 770 /imagefs/tmp \
  && mkdir -m 700 /imagefs/usr/bin /imagefs/usr/sbin \
  && mkdir -m 750 /imagefs/usr/lib /imagefs/usr/local /imagefs/var/cache \
