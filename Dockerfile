@@ -19,7 +19,7 @@ RUN mkdir -m 755 /imagefs \
  && echo 'root:x:0:' > /imagefs/etc/group \
  && echo 'starter:x:101:101:starter:/dev/null:/sbin/nologin' >> /imagefs/etc/passwd \
  && echo 'starter:x:101:' >> /imagefs/etc/group \
- && chmod 600 /imagefs/etc/passwd /imagefs/etc/group \
+ && chmod 640 /imagefs/etc/passwd /imagefs/etc/group \
  && cd /imagefs/var \
  && ln -sf ../tmp tmp \
  && /imagefs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /imagefs/bin/busybox true \
