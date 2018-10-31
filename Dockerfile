@@ -4,7 +4,7 @@ RUN mkdir -m 755 /imagefs \
  && mkdir -m 755 /imagefs/lib /imagefs/usr \
  && mkdir -m 755 /imagefs/usr/local /imagefs/usr/lib \
  && mkdir -m 755 /imagefs/usr/local/bin \
- && mkdir -m 700 /imagefs/bin /imagefs/sbin /imagefs/.dockerenv /imagefs/.r \
+ && mkdir -m 700 /imagefs/bin /imagefs/sbin /imagefs/.dockerenv \
  && mkdir -m 750 /imagefs/etc /imagefs/var /imagefs/run \
  && mkdir -m 770 /imagefs/tmp \
  && mkdir -m 700 /imagefs/usr/bin /imagefs/usr/sbin \
