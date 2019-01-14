@@ -27,7 +27,7 @@ RUN mkdir -m 755 /imagefs \
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
- && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox ls -la --full-time {} + | /imagefs/bin/busybox awk -F " " '{print $5" "$7" "$9}' | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /onbuild-exclude.filelist.gz \
+ && /imagefs/bin/busybox find * ! -type d ! -type c -exec /imagefs/bin/busybox md5sum {} + | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /onbuild-exclude.filelist.gz \
  && /imagefs/bin/busybox mv /onbuild-exclude.filelist.gz /imagefs/onbuild-exclude.filelist.gz \
  && /imagefs/bin/busybox chmod 600 /imagefs/onbuild-exclude.filelist.gz
 
