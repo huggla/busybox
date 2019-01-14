@@ -1,6 +1,4 @@
-ARG TAG="20181204"
-
-FROM huggla/alpine-official:$TAG as alpine
+FROM huggla/alpine-official as alpine
 
 RUN mkdir -m 755 /imagefs \
  && mkdir -m 755 /imagefs/lib /imagefs/usr \
