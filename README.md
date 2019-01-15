@@ -1,3 +1,3 @@
 # huggla/busybox
 
-A minimal base image containing Busybox from Alpine.
+A minimal base image containing Busybox from Alpine edge.
