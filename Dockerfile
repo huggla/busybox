@@ -27,9 +27,7 @@ RUN mkdir -m 755 /imagefs \
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
- && /imagefs/bin/busybox find * ! -type d ! -type c -type l -exec echo -n "{} " \; -exec /imagefs/bin/busybox readlink "{}" \; > /onbuild-exclude.filelist \
- && /imagefs/bin/busybox find * ! -type d ! -type c ! -type l -exec /imagefs/bin/busybox md5sum "{}" \; | /imagefs/bin/busybox awk '{first=$1; $1=""; print $0, first}' | /imagefs/bin/busybox sed 's/^ //' >> /onbuild-exclude.filelist \
- && /imagefs/bin/busybox cat /onbuild-exclude.filelist | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz \
+ && (/imagefs/bin/busybox find * ! -type d ! -type c -type l -exec echo -n "{}>" \; -exec /imagefs/bin/busybox readlink "{}" \; && /imagefs/bin/busybox find * ! -type d ! -type c ! -type l -exec /imagefs/bin/busybox md5sum "{}" \; | /imagefs/bin/busybox awk '{first=$1; $1=""; print $0">"first}' | /imagefs/bin/busybox sed 's/^ //') | /imagefs/bin/busybox sort -u - | /imagefs/bin/busybox gzip -9 > /imagefs/onbuild-exclude.filelist.gz \
  && /imagefs/bin/busybox chmod 600 /imagefs/onbuild-exclude.filelist.gz
 
 FROM scratch as image
