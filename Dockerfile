@@ -23,6 +23,7 @@ RUN mkdir -m 755 /imagefs \
  && chmod 640 /imagefs/etc/passwd /imagefs/etc/group \
  && cd /imagefs/var \
  && ln -sf ../tmp tmp \
+ && ln -sf ../run run \
  && /imagefs/bin/busybox rm -rf /home /usr /var /root /tmp/* /media /mnt /run /sbin /srv /etc /bin/* || /imagefs/bin/busybox true \
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
