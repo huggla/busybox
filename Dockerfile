@@ -8,7 +8,7 @@ RUN mkdir -m 755 /imagefs \
  && mkdir -m 700 /imagefs/bin /imagefs/sbin /imagefs/.dockerenv /imagefs/environment \
  && mkdir -m 750 /imagefs/etc /imagefs/var /imagefs/run \
  && mkdir -m 770 /imagefs/tmp \
- && mkdir -m 700 /imagefs/usr/bin /imagefs/usr/sbin /imagefs/environment/onbuild \
+ && mkdir -m 700 /imagefs/usr/bin /imagefs/usr/sbin /tmp/onbuild \
  && mkdir -m 750 /imagefs/var/cache \
  && cp -a /lib/libz.so* /lib/*musl* /imagefs/lib/ \
  && cp -a /bin/busybox /bin/sh /imagefs/bin/ \
@@ -28,8 +28,8 @@ RUN mkdir -m 755 /imagefs \
  && /imagefs/bin/busybox cp -a /imagefs/bin/* /bin/ \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
- && (/imagefs/bin/busybox find * ! -type d ! -type c -type l ! -path 'tmp/*' ! -path 'var/cache/*' -exec echo -n "/{}>" \; -exec /imagefs/bin/busybox readlink "{}" \; && /imagefs/bin/busybox find * ! -type d ! -type c ! -type l ! -path 'tmp/*' ! -path 'var/cache/*' ! -name 'exclude.filelist' -exec /imagefs/bin/busybox md5sum "{}" \; | /imagefs/bin/busybox awk '{first=$1; $1=""; print $0">"first}' | /imagefs/bin/busybox sed 's|^ |/|') | /imagefs/bin/busybox sort -u - > /imagefs/environment/onbuild/exclude.filelist \
- && /imagefs/bin/busybox gzip -9 -r /imagefs/environment/onbuild
+ && (/imagefs/bin/busybox find * ! -type d ! -type c -type l ! -path 'tmp/*' ! -path 'var/cache/*' -exec echo -n "/{}>" \; -exec /imagefs/bin/busybox readlink "{}" \; && /imagefs/bin/busybox find * ! -type d ! -type c ! -type l ! -path 'tmp/*' ! -path 'var/cache/*' -exec /imagefs/bin/busybox md5sum "{}" \; | /imagefs/bin/busybox awk '{first=$1; $1=""; print $0">"first}' | /imagefs/bin/busybox sed 's|^ |/|') | /imagefs/bin/busybox sort -u - > /tmp/onbuild/exclude.filelist \
+ && /imagefs/bin/busybox gzip -9 -c /tmp/onbuild > /imagefs/environment/onbuild.gz
 
 FROM scratch as image
 
