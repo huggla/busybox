@@ -29,7 +29,7 @@ RUN mkdir -m 755 /imagefs \
  && /imagefs/bin/busybox find /imagefs -type l -exec /imagefs/bin/busybox sh -c 'for x; do [ -e "$x" ] || /imagefs/bin/busybox rm "$x"; done' _ {} + \
  && cd /imagefs \
  && (/imagefs/bin/busybox find * ! -type d ! -type c -type l ! -path 'tmp/*' ! -path 'var/cache/*' -exec echo -n "/{}>" \; -exec /imagefs/bin/busybox readlink "{}" \; && /imagefs/bin/busybox find * ! -type d ! -type c ! -type l ! -path 'tmp/*' ! -path 'var/cache/*' ! -name 'exclude.filelist' -exec /imagefs/bin/busybox md5sum "{}" \; | /imagefs/bin/busybox awk '{first=$1; $1=""; print $0">"first}' | /imagefs/bin/busybox sed 's|^ |/|') | /imagefs/bin/busybox sort -u - > /imagefs/environment/onbuild/exclude.filelist \
- && /imagefs/bin/busybox gzip -9 /imagefs/environment/onbuild
+ && /imagefs/bin/busybox gzip -9 -r /imagefs/environment/onbuild
 
 FROM scratch as image
 
